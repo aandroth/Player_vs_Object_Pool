@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ae874daf28293045880004d63acdb1e, type: 3}
+  m_Name: Beast
+  m_EditorClassIdentifier: 
+  target: {x: 0, y: 0}
+  distToTravel: 0
+  distTraveled: 0
+  attackDistance: 0.13
+  attackAnimTime: 0
+  attackArea: {fileID: 15701253390279581, guid: f7e74bbf720a1af46b2ec73a2b6da020,
+    type: 3}
+  damageArea: {fileID: 569095465615276602, guid: 0523d120416f162489cd406107e880e4,
+    type: 3}
+  attackAreaOffset: {x: 0, y: 0}
+  attackAreaScale: {x: 2.2, y: 1.1}
+  damageAreaOffset: {x: 0, y: 0}
+  damageAreaScale: {x: 2.2, y: 1.1}
+  startMarker: 0
+  endMarker: 0

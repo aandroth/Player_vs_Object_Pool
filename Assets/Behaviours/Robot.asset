@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c18fc8ad54b0249b74f8a7e2b41910, type: 3}
+  m_Name: Robot
+  m_EditorClassIdentifier: 
+  target: {x: 0, y: 0}
+  distToTravel: 0
+  distTraveled: 0
+  attackDistance: 0.13
+  attackAnimTime: 3
+  attackArea: {fileID: 569095465615276602, guid: 0523d120416f162489cd406107e880e4,
+    type: 3}
+  damageArea: {fileID: 2282532267463276456, guid: 00bad6a7423f1f743b59b4266ed28cdb,
+    type: 3}
+  attackAreaOffset: {x: 0, y: 3}
+  attackAreaScale: {x: 2, y: 5}
+  damageAreaOffset: {x: 0, y: 50.5}
+  damageAreaScale: {x: 1.25, y: 100}
+  startMarker: 0
+  endMarker: 0
+  movingInHoriz: 1

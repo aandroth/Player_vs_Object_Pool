@@ -1,0 +1,142 @@
+Game
+
+Task List:
+	Get the CreepData objects to put their data into the CreepScript objects when the player enters that room.
+
+Musts
+	Give the boss an intro and outro
+	Make enemies respawn upon entering room
+
+Wants
+	Maybe the player needs to go through all endings in sequence?
+	Maybe I shouldn't put all of these ideas into this game, and could put them into a few games
+
+
+	Room Ideas:
+		0:
+			Let the player get used to the controls.
+			Let the player snuff out the lights with attacks
+		1:
+			Intro to enemies, Beasts
+		2:
+			Intro to different enemies, Beasts and a Humanoid
+		3: 
+			Some kind of puzzle with the push blocks
+		4:
+			Intro to different enemies, Robots
+		5:
+			Hallway, no enemies
+		6:
+			Combine Humanoids and Robots
+		7:
+			Puzzle with push blocks and Robots
+		8:
+			Room with Beasts, Humanoids, and Robots
+		9:
+			Hallway
+		10:
+			Boss Room
+
+
+	Room Effects
+		SummonLight
+			Active
+				Enemies respawn when player leaves
+				Enemies despawn when they die
+			Inactive
+				Enemies do not respawn
+				Enemies' corpses remain even after player leaves
+		FuryLight
+			Active
+				Enemies attack as normal when player enters room
+			Inactive
+				Enemies are neutral unless attacked by player, and then they attack. Possible to modify based on the creature
+				Robots
+					Passively wander
+					Will talk to the player in beeps and boops
+				Beasts
+					Passively wander
+					If player gets close, they run away
+				Humanoids
+					Passively wander
+					Will talk to player, but speech is not translated
+
+	Funny Stuff
+		Ending
+			If the player reaches the end without blowing up the wall to find the dungeon core, 
+			there is are cutscenes that play to tell the player to go back and do that
+				1st time:
+					Self avatar tells the player "No, no, no. Go back, blow up the wall, and play the rest of the game!"
+					The player is then sent back to the room
+				2nd time:
+					Avatar tells the player "What did I tell you! You're missing out on a lot of content! Go back and blow up that wall!"
+					Player is sent back to room with a bomb chute nearby
+				3rd time: 
+					Avatar tells the player "..."
+					Player appears in the room, and a bomb comes in from the side, hitting the player, landing in front of the wall, blowing up to reveal the hole
+				4th time:
+					Avatar: "Fine!"
+					The player is then only able to watch as their character is played to play out the rest of the game
+
+	Normal ending
+		Overly standard ending where the player is told they vanquished the bad guy and peace came to the land
+		This is not true, and the monsters just return at the end of the hero's life
+	Actual ending
+		The pool actually dies, and then eveything dies
+
+	Intro story
+		Show text
+		Fade from black
+	Intro scene
+		Show hero come in
+		Show boss rise from the center
+
+Boss
+	Damage anim
+	Damage sound effect
+	Health bar graphic
+	Death Anim
+
+Creeps
+	AI
+		Melee Attacks
+		Ranged Attacks
+		Beast Walk
+		Humanoids Walk
+		Have creeps move together when they bump into each other, one is the leader, the other follows
+			Have other creeps that bump into a follower take on the leader as well
+			When the leader moves, all of the children then move
+			This could result in the gridlock problem, where a follower is blocking the leader's path (except that I'm using forces?)
+			A leader that bumps into a follower will not take themselves as a leader (or everyone is their own leader by default)
+			A leader that bumps into a follower will take on that follower's leader, and then cascade that to all of their own followers
+	Anims
+		Robots
+			Attack
+			Walk
+			Death
+		Humans
+			Attack
+			Walk
+			Death
+		Beasts
+			Attack
+			Walk
+			Death
+	Sound Effects
+		Robots
+			Attack
+			Walk
+			Death
+		Humans
+			Attack
+			Walk
+			Death
+		Beasts
+			Attack
+			Walk
+			Death
+	Crowd
+		Cheering
+			Anim: Have about three layers, so the cheering chars are mixed up a bit
+			Sound
+			Death
