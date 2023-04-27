@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour
                 break;
             case GAME_STATES.PLAYING:
 
-                if (player.m_health <= 0)
+                if (player.m_Health <= 0)
                 {
                     state = GAME_STATES.ENDING_DEFEAT;
                     player.freezeControls = true;

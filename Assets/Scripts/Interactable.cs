@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class Interactable : MonoBehaviour
 {
-    private bool playerIsInRange = false;
+    public bool playerIsInRange = false;
     public GameObject dialogueBox;
     public Text dialogueText;
     public string textString;
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         if (Input.GetKeyUp(KeyCode.Space) && playerIsInRange)
         {

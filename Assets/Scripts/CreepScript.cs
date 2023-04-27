@@ -261,7 +261,7 @@ public class CreepScript : MonoBehaviour {
         creepBehaviour = newBehavior;
 
         SetAttackAreaCollider(creepBehaviour.GetAttackArea());
-        attackArea.GetComponent<AttackArea>().SetBeginAttackDelegate(creepBehaviour.BeginAttackDefinition);
+        attackArea.GetComponent<AttackArea>().SetBeginAttackDelegate(BeginAttacking);
         SetDamageAreaCollider(creepBehaviour.GetDamageArea());
     }
 
@@ -282,5 +282,11 @@ public class CreepScript : MonoBehaviour {
         Debug.Log("Creep releasing data at " + m_health + " hp.");
         sendBackDataOnRelease(gameObject.GetComponent<CreepScript>(), m_health);
         gameObject.SetActive(false);
+    }
+
+    public void BeginAttacking()
+    {
+        Debug.Log("Creep beginning attack.");
+        state = ENEMY_STATE.ATTACKING;
     }
 }

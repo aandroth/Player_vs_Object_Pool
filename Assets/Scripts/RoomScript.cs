@@ -18,6 +18,8 @@ public class RoomScript : MonoBehaviour
     public CreepDataObject[] creepDataObjects;
     public bool hasPuzzle, puzzleSolved;
     public List<PuzzleHolder> puzzleHolders;
+    [SerializeField]
+    public List<GameObject> roomItems;
 
     public bool furyLightActive, summonLightActive;
 
@@ -50,6 +52,10 @@ public class RoomScript : MonoBehaviour
             {
                 ResetPuzzles();
             }
+            if (roomItems.Count > 0)
+            {
+                ResetItems();
+            }
             startAllCreeps();
         }
         else
@@ -66,6 +72,16 @@ public class RoomScript : MonoBehaviour
         {
             Debug.Log("ResetPuzzles()"+ii);
             puzzleHolders[ii].resetPuzzleBlockPositions();
+        }
+    }
+
+    public void ResetItems()
+    {
+        Debug.Log("ResetItems()");
+        for (int ii=0; ii<roomItems.Count; ++ii)
+        {
+            Debug.Log("Resetting Item " + ii);
+            roomItems[ii].GetComponent<I_RoomItems>().RoomReset();
         }
     }
     

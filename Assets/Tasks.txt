@@ -1,5 +1,8 @@
 Game
 
+Have hallways that the player can use as shortcuts to access rooms that spawn the bot enemies.
+These hallways come from the crystal room and the player can turn off the bots spawning there.
+
 Task List:
 	Get the CreepData objects to put their data into the CreepScript objects when the player enters that room.
 

@@ -39,6 +39,7 @@ public class CameraScript : MonoBehaviour {
                 new_pos = new Vector3(target.transform.position.x,
                                         target.transform.position.y,
                                         transform.position.z);
+                new_pos = Vector3.Lerp(transform.position, new_pos, 1f);
 
                 new_pos.x = Mathf.Clamp(new_pos.x, leftLimit, rightLimit);
                 new_pos.y = Mathf.Clamp(new_pos.y, lowerLimit, upperLimit);

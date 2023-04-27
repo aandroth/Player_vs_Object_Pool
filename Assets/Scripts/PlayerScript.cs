@@ -2,21 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts;
 
-public class PlayerScript : MonoBehaviour {
-
+public class PlayerScript : MonoBehaviour, IDamageable
+{
     public bool isAttacking, isTransitioning, showDamageSprite, isBeingDamaged, isAlive, isWeapon, isPlayerAlly, onCoolDown, freezeControls;
 
     public float attackTimer, attackTimerLimit, 
                 damageTimer, damageTimerLimit, 
                 swordCoolDownTimer, swordCoolDownTimerLimit,
                 roomTransitionTimer, roomTransitionTimeLimit;
-    public int m_speed, m_health, m_damage;
+    public int m_speed, m_damage;
 
     public GameObject weapon;
+    public GameObject playerSprite;
 
     private Vector3 prev_pos;
     public Vector2 newRoomPos, newRoomDir;
+
+    public int m_Health { get; set; }
 
     // Use this for initialization
     void Start () {
@@ -105,6 +109,7 @@ public class PlayerScript : MonoBehaviour {
                 // Spawn sword and attack
                 weapon.SetActive(true);
                 weapon.GetComponent<WeaponScript>().Attack(attackTimerLimit);
+                PlayAttackAnimation();
                 return;
             }
             TravelTo();
@@ -151,12 +156,12 @@ public class PlayerScript : MonoBehaviour {
 
     public void TakeDamage(int damage)
     {
-        m_health -= damage;
+        m_Health -= damage;
         isBeingDamaged = true;
         isAttacking = false;
         weapon.SetActive(false);
 
-        if (m_health <= 0)
+        if (m_Health <= 0)
         {
             isAlive = false;
             Die();
@@ -180,24 +185,144 @@ public class PlayerScript : MonoBehaviour {
             if (Input.GetKey(KeyCode.W))
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(0, m_speed);
-                transform.rotation = Quaternion.Euler(0, 0, 90);
             }
             else if (Input.GetKey(KeyCode.S))
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(0, -m_speed);
-                transform.rotation = Quaternion.Euler(0, 0, 270);
             }
 
             if (Input.GetKey(KeyCode.A))
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(-m_speed, GetComponent<Rigidbody2D>().velocity.y);
-                transform.rotation = Quaternion.Euler(0, 0, 180);
             }
             else if (Input.GetKey(KeyCode.D))
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(m_speed, GetComponent<Rigidbody2D>().velocity.y);
-                transform.rotation = Quaternion.Euler(0, 0, 0);
             }
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                if (transform.localScale.x < 0)
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
+                playerSprite.GetComponent<Animator>().Play("PlayerWalkUp");
+                weapon.transform.eulerAngles = (new Vector3(0, 0, 90));
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                if (transform.localScale.x < 0)
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
+                playerSprite.GetComponent<Animator>().Play("PlayerWalkDown");
+                weapon.transform.eulerAngles = (new Vector3(0, 0, 270));
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                if (transform.localScale.x > 0)
+                {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
+                playerSprite.GetComponent<Animator>().Play("PlayerWalkSide");
+                weapon.transform.eulerAngles = (new Vector3(0, 0, 0));
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                if (transform.localScale.x < 0)
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
+                playerSprite.GetComponent<Animator>().Play("PlayerWalkSide");
+                weapon.transform.eulerAngles = (new Vector3(0, 0, 0));
+            }
+
+            if (Input.GetKeyUp(KeyCode.W))
+            {
+                if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D))
+                    playerSprite.GetComponent<Animator>().Play("IdleUp");
+                else
+                    PlayWalkAnimAfterKeyUp();
+            }
+            else if (Input.GetKeyUp(KeyCode.S))
+            {
+                if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.D))
+                    playerSprite.GetComponent<Animator>().Play("IdleDown");
+                else
+                    PlayWalkAnimAfterKeyUp();
+            }
+            else if (Input.GetKeyUp(KeyCode.A))
+            {
+                if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D))
+                    playerSprite.GetComponent<Animator>().Play("IdleSide");
+                else
+                    PlayWalkAnimAfterKeyUp();
+            }
+            else if (Input.GetKeyUp(KeyCode.D))
+            {
+                if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W))
+                    playerSprite.GetComponent<Animator>().Play("IdleSide");
+                else
+                    PlayWalkAnimAfterKeyUp();
+            }
+        }
+    }
+
+    public void PlayWalkAnimAfterKeyUp()
+    {
+        if (Input.GetKey(KeyCode.S))
+        {
+            if (transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            playerSprite.GetComponent<Animator>().Play("PlayerWalkDown");
+            weapon.transform.eulerAngles = (new Vector3(0, 0, 270));
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            if (transform.localScale.x > 0)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+            playerSprite.GetComponent<Animator>().Play("PlayerWalkSide");
+            weapon.transform.eulerAngles = (new Vector3(0, 0, 0));
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            if (transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            playerSprite.GetComponent<Animator>().Play("PlayerWalkSide");
+            weapon.transform.eulerAngles = (new Vector3(0, 0, 0));
+        }
+        else if (Input.GetKey(KeyCode.W))
+        {
+            if (transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            playerSprite.GetComponent<Animator>().Play("PlayerWalkUp");
+            weapon.transform.eulerAngles = (new Vector3(0, 0, 90));
+        }
+    }
+
+    public void PlayAttackAnimation()
+    {
+        switch (weapon.transform.rotation.eulerAngles.z)
+        {
+            case 0:
+            case 180:
+            case 360:
+                playerSprite.GetComponent<Animator>().Play("AttackSideAnim");
+                break;
+            case 90:
+                playerSprite.GetComponent<Animator>().Play("AttackUpAnim");
+                break;
+            case 270:
+                playerSprite.GetComponent<Animator>().Play("AttackDownAnim");
+                break;
         }
     }
 
