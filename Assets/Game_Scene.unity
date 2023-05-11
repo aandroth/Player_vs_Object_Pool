@@ -36839,16 +36839,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603151c9dc77737419ac3e23a4235ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 689431025}
   Player: {fileID: 601774247}
   target: {fileID: 601774250}
-  viewWidth: 15.879556
-  viewHeight: 10
-  upperLimit: 27
-  lowerLimit: 27
-  leftLimit: -74.06022
-  rightLimit: -69.93978
-  smoothing: 0.05
+  viewSize: {x: 0, y: 0}
+  cameraMovementArea:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
   transitionSpeed: 5
+  smoothing: 0.05
 --- !u!1 &699873694
 GameObject:
   m_ObjectHideFlags: 0

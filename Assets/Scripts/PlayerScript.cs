@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour, IDamageable
 {
@@ -328,11 +329,15 @@ public class PlayerScript : MonoBehaviour, IDamageable
 
     void Die()
     {
+        Debug.Log("<color=red>[PlayerScript]</color> Die");
         Destroy(gameObject.GetComponent<BoxCollider2D>());
         isAlive = false;
         isBeingDamaged = false;
         isAttacking = false;
         GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+
+        Debug.Log("<color=red>[PlayerScript]</color> Die: reloading game");
+        SceneManager.LoadScene(0);
     }
 
     public void initiateTransitionToNewRoomAtPos(Vector3 newPos)

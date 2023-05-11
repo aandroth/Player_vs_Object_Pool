@@ -34,7 +34,7 @@ public class DoorTrigger : MonoBehaviour
 
     private void triggerPlayerMoveToNewRoom()
     {
-        Debug.Log("triggering initiateTransitionToNewRoomAtPos");
+        Debug.Log($"<color=purple>[DoorTrigger]</color> triggerPlayerMoveToNewRoom");
         Vector2 newPos = attachedDoorTrigger.GetComponent<DoorTrigger>().getSpawnPointInRoom();
         //newPos.x = newRoomDir.x * player.GetComponent<PlayerScript>().getHeight()*3;
         //newPos.y = newRoomDir.y * player.GetComponent<PlayerScript>().getHeight()*3;
@@ -60,6 +60,7 @@ public class DoorTrigger : MonoBehaviour
     {
         if(!doorIsLocked && collision.tag == "Player")
         {
+            Debug.Log($"<color=purple>[DoorTrigger]</color> OnTriggerEnter2D");
             doorIsOpen = true;
             doorOpenTime = doorOpenTimeMax;
             myDoor.SetActive(false);

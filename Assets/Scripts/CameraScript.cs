@@ -1,49 +1,49 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CameraScript : MonoBehaviour {
+public class CameraScript : MonoBehaviour 
+{
+    [SerializeField] new Camera camera;
+    [SerializeField] GameObject Player;
+    [SerializeField] Transform target;
+    [SerializeField] Vector2 viewSize;
+    [SerializeField] Bounds cameraMovementArea;
+    [SerializeField] float transitionSpeed;
+    [SerializeField] float smoothing;
 
-    public enum CAMERA_STATE { IN_ROOM, TRANSITION_ROOM }
-    private CAMERA_STATE state = CAMERA_STATE.IN_ROOM;
+    Vector2 transitionDirection, oldPos; // Transition
+    float originalOrthographicSize;
 
-    public GameObject Player;
-
-    public Transform target;
-    public float viewWidth, viewHeight;
-    public float upperLimit, lowerLimit, leftLimit, rightLimit;
-    public float smoothing;
-
-    // Transition
-    private Vector2 transitionDirection, oldPos;
-    public float transitionSpeed;
-
-	// Use this for initialization
-	void Start ()
+    //Vector2 CameraViewSize => camera.ViewportToWorldPoint(Vector2.one) - camera.ViewportToWorldPoint(Vector2.zero);
+    Vector2 CameraViewSize => new Vector2
     {
+        y = 2f * camera.orthographicSize,
+        x = 2f * camera.orthographicSize * camera.aspect
+    };
+
+    void Awake()
+    {
+        originalOrthographicSize = camera.orthographicSize;
         state = CAMERA_STATE.IN_ROOM;
-        viewHeight = 2f * gameObject.GetComponent<Camera>().orthographicSize;
-        viewWidth = viewHeight * gameObject.GetComponent<Camera>().aspect;
     }
 	
-	// Update is called once per frame
-	void LateUpdate () {
-
-        Vector3 new_pos = transform.position;
+	void LateUpdate() 
+    {
+        var new_pos = transform.position;
 
         switch (state)
         {
             case CAMERA_STATE.IN_ROOM:
-
-                new_pos = new Vector3(target.transform.position.x,
-                                        target.transform.position.y,
-                                        transform.position.z);
+                new_pos = new Vector3
+                (
+                    target.transform.position.x,
+                    target.transform.position.y,
+                    transform.position.z
+                );
                 new_pos = Vector3.Lerp(transform.position, new_pos, 1f);
-
-                new_pos.x = Mathf.Clamp(new_pos.x, leftLimit, rightLimit);
-                new_pos.y = Mathf.Clamp(new_pos.y, lowerLimit, upperLimit);
+                new_pos.x = Mathf.Clamp(new_pos.x, cameraMovementArea.min.x, cameraMovementArea.max.x);
+                new_pos.y = Mathf.Clamp(new_pos.y, cameraMovementArea.min.y, cameraMovementArea.max.y);
                 break;
+
             //case CAMERA_STATE.TRANSITION_ROOM:
             //    if (transitionDirection.x != 0)
             //    {
@@ -65,27 +65,35 @@ public class CameraScript : MonoBehaviour {
 
         transform.position = Vector3.Lerp(transform.position, new_pos, smoothing);
     }
-
-    public void setNewLimitsUppDwnLftRht(float upp, float dwn, float lft, float rht)
+    
+    void UpdateCameraSize(Bounds bounds)
     {
-        viewHeight = 2f * gameObject.GetComponent<Camera>().orthographicSize;
-        viewWidth = viewHeight * gameObject.GetComponent<Camera>().aspect;
+        camera.orthographicSize = originalOrthographicSize;
 
-        upperLimit = upp - viewHeight * 0.5f;
-        lowerLimit = dwn + viewHeight * 0.5f;
-        leftLimit  = lft + viewWidth * 0.5f;
-        rightLimit = rht - viewWidth * 0.5f;
+        var currentViewSize = CameraViewSize;
+        if (currentViewSize.x > bounds.size.x)
+        {
+            camera.orthographicSize /= currentViewSize.x / bounds.size.x;
+            currentViewSize = CameraViewSize;
+        }
+        if (currentViewSize.y > bounds.size.y)
+        {
+            camera.orthographicSize /= currentViewSize.y / bounds.size.y;
+            currentViewSize = CameraViewSize;
+        }
+    }
+    void UpdateCameraMovementLimit(Bounds bounds)
+    {
+        var tempCameraViewSize = CameraViewSize;
+        cameraMovementArea = new Bounds(bounds.center, bounds.size - new Vector3(tempCameraViewSize.x, tempCameraViewSize.y));
+        Debug.Log($"<color=purple>[CameraScript]</color> UpdateCameraMovementLimit: cameraMovementArea.size={cameraMovementArea.size}");
     }
 
-    public void setNewLimitsUppDwnLftRht(Vector4 newLimits)
+    public void setNewLimitsUppDwnLftRht(Bounds bounds)
     {
-        viewHeight = 2f * gameObject.GetComponent<Camera>().orthographicSize;
-        viewWidth = viewHeight * gameObject.GetComponent<Camera>().aspect;
-
-        upperLimit = newLimits.x - viewHeight * 0.5f;
-        lowerLimit = newLimits.y + viewHeight * 0.5f;
-        leftLimit  = newLimits.z + viewWidth * 0.5f;
-        rightLimit = newLimits.w - viewWidth * 0.5f;
+        Debug.Log($"<color=purple>[CameraScript]</color> setNewLimitsUppDwnLftRht: bounds={bounds}");
+        UpdateCameraSize(bounds);
+        UpdateCameraMovementLimit(bounds);
     }
 
     public void beginRoomTransitionInDirection(Vector2 dir)
@@ -94,4 +102,7 @@ public class CameraScript : MonoBehaviour {
         transitionDirection = dir;
         //state = CAMERA_STATE.TRANSITION_ROOM;
     }
+
+    public enum CAMERA_STATE { IN_ROOM, TRANSITION_ROOM }
+    private CAMERA_STATE state = CAMERA_STATE.IN_ROOM;
 }
