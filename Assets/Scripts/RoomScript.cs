@@ -30,22 +30,16 @@ public class RoomScript : MonoBehaviour
     [HideInInspector]
     public GameObject bossObject;
 
+    public Bounds Bounds => ct.GetComponent<TilemapCollider2D>().bounds;
+
     void Start()
     {
-        UnityEngine.Vector2 ctCenter = ct.GetComponent<TilemapCollider2D>().bounds.center;
-        UnityEngine.Vector2 ctExtents = ct.GetComponent<TilemapCollider2D>().bounds.extents;
-
-        topMostPos = ctCenter.y + ctExtents.y;
-        botMostPos = ctCenter.y - ctExtents.y;
-        leftMostPos = ctCenter.x - ctExtents.x;
-        rightMostPos = ctCenter.x + ctExtents.x;
-
         creepDataObjects = creepHolder.GetComponentsInChildren<CreepDataObject>();
     }
 
     public void PlayerEntersRoom()
     {
-        Debug.Log("Player entered room");
+        Debug.Log("<color=purple>[RoomScript]</color> PlayerEntersRoom");
         if (!isBossRoom)
         {
             if (puzzleHolders.Count > 0)
@@ -67,49 +61,33 @@ public class RoomScript : MonoBehaviour
 
     public void ResetPuzzles()
     {
-        Debug.Log("ResetPuzzles()");
-        for (int ii=0; ii<puzzleHolders.Count; ++ii)
+        Debug.Log("<color=purple>[RoomScript]</color> ResetPuzzles");
+        for (int i = 0; i < puzzleHolders.Count; ++i)
         {
-            Debug.Log("ResetPuzzles()"+ii);
-            puzzleHolders[ii].resetPuzzleBlockPositions();
+            Debug.Log("<color=purple>[RoomScript]</color> ResetPuzzles: i=" + i);
+            puzzleHolders[i].resetPuzzleBlockPositions();
         }
     }
 
     public void ResetItems()
     {
-        Debug.Log("ResetItems()");
-        for (int ii=0; ii<roomItems.Count; ++ii)
+        Debug.Log("<color=purple>[RoomScript]</color> ResetItems");
+        for (int i = 0; i < roomItems.Count; ++i)
         {
-            Debug.Log("Resetting Item " + ii);
-            roomItems[ii].GetComponent<I_RoomItems>().RoomReset();
+            Debug.Log("<color=purple>[RoomScript]</color> ResetItems: i=" + i);
+            roomItems[i].GetComponent<I_RoomItems>().RoomReset();
         }
     }
     
     public void setCameraLimits(GameObject cam)
     {
-        UnityEngine.Vector2 ctCenter = ct.GetComponent<TilemapCollider2D>().bounds.center;
-        UnityEngine.Vector2 ctExtents = ct.GetComponent<TilemapCollider2D>().bounds.extents;
-
-        cam.GetComponent<CameraScript>().setNewLimitsUppDwnLftRht(topMostPos, botMostPos, leftMostPos, rightMostPos);
+        cam.GetComponent<CameraScript>().setNewLimitsUppDwnLftRht(getCameraLimits());
     }
     
-    public Vector4 getCameraLimits()
+    public Bounds getCameraLimits()
     {
-        UnityEngine.Vector2 ctCenter = ct.GetComponent<TilemapCollider2D>().bounds.center;
-        UnityEngine.Vector2 ctExtents = ct.GetComponent<TilemapCollider2D>().bounds.extents;
-
-        return new Vector4(topMostPos, botMostPos, leftMostPos, rightMostPos);
+        return Bounds;
     }
-
-    public float getCenterX()
-    {
-        return ct.GetComponent<TilemapCollider2D>().bounds.center.x;
-    }
-    public float getCenterY()
-    {
-        return ct.GetComponent<TilemapCollider2D>().bounds.center.y;
-    }
-
     public void stopAllCreeps()
     {
         for (int ii = 0; ii < creepDataObjects.Length; ++ii)
@@ -123,16 +101,12 @@ public class RoomScript : MonoBehaviour
     }
     public void startAllCreeps()
     {
-        Debug.Log("in startAllCreeps");
+        Debug.Log("<color=purple>[RoomScript]</color> startAllCreeps");
         creepHolder.SetActive(true);
-        Debug.Log("Starting creeps");
-        for (int ii = 0; ii < creepDataObjects.Length; ++ii)
+        for (int i = 0; i < creepDataObjects.Length; ++i)
         {
-            if (true)
-            {
-                creepDataObjects[ii].refreshCreepData();
-            }
-            creepDataObjects[ii].getCreepGameObjectFromPool();
+            creepDataObjects[i].refreshCreepData();
+            creepDataObjects[i].getCreepGameObjectFromPool();
         }
     }
 

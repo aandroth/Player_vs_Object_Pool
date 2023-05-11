@@ -6,7 +6,6 @@ using UnityEngine.Tilemaps;
 public class RoomBossScript : MonoBehaviour
 {
     public GameObject ct; // Collision Tiles of the room
-    public float topMostPos, botMostPos, leftMostPos, rightMostPos;
 
     public GameObject creepHolder;
     public CreepDataObject[] creepDataObjects;
@@ -15,16 +14,10 @@ public class RoomBossScript : MonoBehaviour
 
     public bool furyLightActive, summonLightActive;
 
+    public Bounds Bounds => ct.GetComponent<TilemapCollider2D>().bounds;
+
     void Start()
     {
-        UnityEngine.Vector2 ctCenter = ct.GetComponent<TilemapCollider2D>().bounds.center;
-        UnityEngine.Vector2 ctExtents = ct.GetComponent<TilemapCollider2D>().bounds.extents;
-
-        topMostPos = ctCenter.y + ctExtents.y;
-        botMostPos = ctCenter.y - ctExtents.y;
-        leftMostPos = ctCenter.x - ctExtents.x;
-        rightMostPos = ctCenter.x + ctExtents.x;
-
         creepDataObjects = creepHolder.GetComponentsInChildren<CreepDataObject>();
     }
 
@@ -56,19 +49,10 @@ public class RoomBossScript : MonoBehaviour
 
     public void setCameraLimits(GameObject cam)
     {
-        UnityEngine.Vector2 ctCenter = ct.GetComponent<TilemapCollider2D>().bounds.center;
-        UnityEngine.Vector2 ctExtents = ct.GetComponent<TilemapCollider2D>().bounds.extents;
-
-        cam.GetComponent<CameraScript>().setNewLimitsUppDwnLftRht(topMostPos, botMostPos, leftMostPos, rightMostPos);
+        cam.GetComponent<CameraScript>().setNewLimitsUppDwnLftRht(Bounds);
     }
 
-    public Vector4 getCameraLimits()
-    {
-        UnityEngine.Vector2 ctCenter = ct.GetComponent<TilemapCollider2D>().bounds.center;
-        UnityEngine.Vector2 ctExtents = ct.GetComponent<TilemapCollider2D>().bounds.extents;
-
-        return new Vector4(topMostPos, botMostPos, leftMostPos, rightMostPos);
-    }
+    public Bounds getCameraLimits() => Bounds;
 
     public float getCenterX()
     {

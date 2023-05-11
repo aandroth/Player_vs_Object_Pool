@@ -50,7 +50,7 @@ public class GameController : MonoBehaviour
                         //boss.gameObject.SetActive(true);
                         state = GAME_STATES.PLAYING;
                         player.freezeControls = false;
-                        cameraScript.setNewLimitsUppDwnLftRht(currRoom.topMostPos, currRoom.botMostPos, currRoom.leftMostPos, currRoom.rightMostPos);
+                        cameraScript.setNewLimitsUppDwnLftRht(currRoom.Bounds);
                     }
                 }
                 break;
