@@ -123,6 +123,5 @@ public class Bomb : MonoBehaviour
             objectsHit[ii].GetComponent<Rigidbody2D>().AddForce(m_BlastForce * forceDirection);
             objectsHit[ii].GetComponent<IDamageable>().TakeDamage((int)m_BlastDamage);
         }
-
     }
 }

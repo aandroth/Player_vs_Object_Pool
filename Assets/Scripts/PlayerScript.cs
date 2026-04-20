@@ -117,10 +117,10 @@ public class PlayerScript : MonoBehaviour, IDamageable
         }
 
         // Limits on velocity
-        if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > 5)
-            GetComponent<Rigidbody2D>().velocity *= 0.5f;
-        else if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) > 5)
-            GetComponent<Rigidbody2D>().velocity *= 0.5f;
+        if (Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.x) > 5)
+            GetComponent<Rigidbody2D>().linearVelocity *= 0.5f;
+        else if (Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.y) > 5)
+            GetComponent<Rigidbody2D>().linearVelocity *= 0.5f;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -155,6 +155,7 @@ public class PlayerScript : MonoBehaviour, IDamageable
         }
     }
 
+    //[Test]
     public void TakeDamage(int damage)
     {
         m_Health -= damage;
@@ -185,20 +186,20 @@ public class PlayerScript : MonoBehaviour, IDamageable
         {
             if (Input.GetKey(KeyCode.W))
             {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(0, m_speed);
+                GetComponent<Rigidbody2D>().linearVelocity = new Vector2(0, m_speed);
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(0, -m_speed);
+                GetComponent<Rigidbody2D>().linearVelocity = new Vector2(0, -m_speed);
             }
 
             if (Input.GetKey(KeyCode.A))
             {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(-m_speed, GetComponent<Rigidbody2D>().velocity.y);
+                GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-m_speed, GetComponent<Rigidbody2D>().linearVelocity.y);
             }
             else if (Input.GetKey(KeyCode.D))
             {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(m_speed, GetComponent<Rigidbody2D>().velocity.y);
+                GetComponent<Rigidbody2D>().linearVelocity = new Vector2(m_speed, GetComponent<Rigidbody2D>().linearVelocity.y);
             }
 
             if (Input.GetKeyDown(KeyCode.W))
@@ -334,7 +335,7 @@ public class PlayerScript : MonoBehaviour, IDamageable
         isAlive = false;
         isBeingDamaged = false;
         isAttacking = false;
-        GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+        GetComponent<Rigidbody2D>().linearVelocity = new Vector3(0, 0, 0);
 
         Debug.Log("<color=red>[PlayerScript]</color> Die: reloading game");
         SceneManager.LoadScene(0);

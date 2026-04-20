@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,10 +10,16 @@ public abstract class Creep_Behaviour : ScriptableObject
     protected Vector2 prevPos_V2;
     public float distToTravel;
     public float distTraveled;
+
+
     public float attackDistance;
+    public float attackPreTime;
     public float attackAnimTime;
+    public float attackPostTime;
+    public IEnumerator attackExecutionEnumerator;
     public GameObject attackArea;
     public GameObject damageArea;
+    public Animator animator;
 
     public Vector2 attackAreaOffset;
     public Vector2 attackAreaScale;
@@ -26,13 +33,15 @@ public abstract class Creep_Behaviour : ScriptableObject
 
     public abstract Vector2 TravelTo(Vector2 dest, Vector2 selfPos, bool isInHorizDirection);
 
-    public float BeginAttackDefinition()
+    public IEnumerator ExecuteAttack()
     {
-        // Activate the damage area after a specified time
-        // Damage area is specific to each enemy behavior
-        Debug.Log("BeginAttackDefinition: Attack the player!");
-        return attackAnimTime;
+        yield return new WaitForSeconds(attackPreTime);
+        Debug.Log("BeginAttackDefinition: Start attacking the player!");
+        yield return new WaitForSeconds(attackAnimTime);
+        Debug.Log("BeginAttackDefinition: Ended attacking the player!");
+        yield return new WaitForSeconds(attackPostTime);
     }
+
     public abstract GameObject GetAttackArea();
     public abstract GameObject GetDamageArea();
 }

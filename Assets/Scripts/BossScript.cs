@@ -267,7 +267,7 @@ public class BossScript : MonoBehaviour {
         isAlive = false;
         isBeingDamaged = false;
         isAttacking = false;
-        GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+        GetComponent<Rigidbody2D>().linearVelocity = new Vector3(0, 0, 0);
         m_PosWhenKilled = transform.position;
     }
 

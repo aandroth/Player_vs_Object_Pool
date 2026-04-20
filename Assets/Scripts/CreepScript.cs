@@ -26,6 +26,7 @@ public class CreepScript : MonoBehaviour {
 
     public GameObject attackArea;
     public GameObject damageArea;
+    public Animator animator;
 
     //bool isWeapon, showDamageSprite;
     //private Vector3 prev_pos;
@@ -77,8 +78,8 @@ public class CreepScript : MonoBehaviour {
         {
             case ENEMY_STATE.CHASING:
 
-                GetComponent<Rigidbody2D>().velocity = creepBehaviour.TravelTo(Player.transform.position, transform.position, isInHorizDirection);
-                if (GetComponent<Rigidbody2D>().velocity.x == 0 && GetComponent<Rigidbody2D>().velocity.y == 0)
+                GetComponent<Rigidbody2D>().linearVelocity = creepBehaviour.TravelTo(Player.transform.position, transform.position, isInHorizDirection);
+                if (GetComponent<Rigidbody2D>().linearVelocity.x == 0 && GetComponent<Rigidbody2D>().linearVelocity.y == 0)
                 {
                     isInHorizDirection = !isInHorizDirection;
                 }
@@ -138,44 +139,44 @@ public class CreepScript : MonoBehaviour {
         }
 
         // Limits on velocity
-        if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > 10 || Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) > 10)
+        if (Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.x) > 10 || Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.y) > 10)
         {
-            Vector2 new_speed = GetComponent<Rigidbody2D>().velocity;
+            Vector2 new_speed = GetComponent<Rigidbody2D>().linearVelocity;
 
-            if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > 5)
+            if (Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.x) > 5)
                 new_speed.x = Mathf.Sign(new_speed.x) * 5;
-            if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > 5)
+            if (Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.x) > 5)
                 new_speed.y = Mathf.Sign(new_speed.y) * 5;
-            GetComponent<Rigidbody2D>().velocity = new_speed;
+            GetComponent<Rigidbody2D>().linearVelocity = new_speed;
         }
     }
 
     private void checkFacing()
     {
-        if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y))
+        if (Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.x) > Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.y))
         {
-            if(GetComponent<Rigidbody2D>().velocity.x > 0 && transform.rotation.eulerAngles.z != 90)
+            if(GetComponent<Rigidbody2D>().linearVelocity.x > 0 && transform.rotation.eulerAngles.z != 90)
             {
                 Quaternion q = Quaternion.identity;
                 q.eulerAngles = new Vector3(0, 0, 270);
                 transform.rotation = q;
             }
-            else if (GetComponent<Rigidbody2D>().velocity.x < 0 && transform.rotation.eulerAngles.z != 270)
+            else if (GetComponent<Rigidbody2D>().linearVelocity.x < 0 && transform.rotation.eulerAngles.z != 270)
             {
                 Quaternion q = Quaternion.identity;
                 q.eulerAngles = new Vector3(0, 0, 90);
                 transform.rotation = q;
             }
         }
-        else if(Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) < Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y))
+        else if(Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.x) < Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.y))
         {
-            if (GetComponent<Rigidbody2D>().velocity.y > 0 && transform.rotation.eulerAngles.z != 0)
+            if (GetComponent<Rigidbody2D>().linearVelocity.y > 0 && transform.rotation.eulerAngles.z != 0)
             {
                 Quaternion q = Quaternion.identity;
                 q.eulerAngles = new Vector3(0, 0, 0);
                 transform.rotation = q;
             }
-            else if (GetComponent<Rigidbody2D>().velocity.y < 0 && transform.rotation.eulerAngles.z != 180)
+            else if (GetComponent<Rigidbody2D>().linearVelocity.y < 0 && transform.rotation.eulerAngles.z != 180)
             {
                 Quaternion q = Quaternion.identity;
                 q.eulerAngles = new Vector3(0, 0, 180);
@@ -214,7 +215,7 @@ public class CreepScript : MonoBehaviour {
             dir = new Vector2(0, Mathf.Sign(dir.y) * m_speed * force);
         }
 
-        GetComponent<Rigidbody2D>().velocity = dir;
+        GetComponent<Rigidbody2D>().linearVelocity = dir;
     }
 
     public void beginPreAttack()
@@ -233,7 +234,7 @@ public class CreepScript : MonoBehaviour {
         isAlive = false;
         isBeingDamaged = false;
         isAttacking = false;
-        GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+        GetComponent<Rigidbody2D>().linearVelocity = new Vector3(0, 0, 0);
         ReleaseToObjectPool();
         if (Boss != null)
         {

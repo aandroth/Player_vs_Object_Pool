@@ -16,10 +16,14 @@ MonoBehaviour:
   distToTravel: 0
   distTraveled: 0
   attackDistance: 0.13
+  attackPreTime: 0
   attackAnimTime: 3
+  attackPostTime: 0
   attackArea: {fileID: 569095465615276602, guid: 0523d120416f162489cd406107e880e4,
     type: 3}
   damageArea: {fileID: 2282532267463276456, guid: 00bad6a7423f1f743b59b4266ed28cdb,
+    type: 3}
+  animator: {fileID: 3149010245875710298, guid: 76805962b94df0c488b68900f8240d95,
     type: 3}
   attackAreaOffset: {x: 0, y: 3}
   attackAreaScale: {x: 2, y: 5}

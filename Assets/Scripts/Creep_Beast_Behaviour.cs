@@ -2,15 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 [CreateAssetMenu(menuName = "Creep/Behavior/Beast")]
 public class Creep_Beast_Behaviour : Creep_Behaviour
 {
+    public Coroutine attackEnumerator;
+
     public void OnEnable()
     {
         //attackArea.GetComponent<AttackArea>()
-        BeginAttack beginAttackDelegate = BeginAttackDefinition;
+    }
+
+    public void StartAttack()
+    {
+
+    }
+
+    public IEnumerator AttackSequence()
+    {
+        yield return null;
     }
 
     public override Vector2 TravelTo(Vector2 dest, Vector2 selfPos, bool isInHorizDirection)

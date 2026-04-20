@@ -15,11 +15,16 @@ MonoBehaviour:
   target: {x: 0, y: 0}
   distToTravel: 0
   distTraveled: 0
+  attackPreAnim: {fileID: 0}
+  attackAnim: {fileID: 0}
+  attackPostAnim: {fileID: 0}
   attackDistance: 0.13
+  attackPreTime: 0
   attackAnimTime: 0
+  attackPostTime: 0
   attackArea: {fileID: 15701253390279581, guid: f7e74bbf720a1af46b2ec73a2b6da020,
     type: 3}
-  damageArea: {fileID: 569095465615276602, guid: 0523d120416f162489cd406107e880e4,
+  damageArea: {fileID: 15701253390279581, guid: f7e74bbf720a1af46b2ec73a2b6da020,
     type: 3}
   attackAreaOffset: {x: 0, y: 0}
   attackAreaScale: {x: 2.2, y: 1.1}

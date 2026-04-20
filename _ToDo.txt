@@ -1,0 +1,39 @@
+Animations:
+
+Enemies need animations/sprites
+Need crowd of monsters
+	Need to animate crowd of monsters
+
+
+Events:
+
+Boss needs to activate when entering that room
+Need to place enemies
+Dungeon-core hallway should be dark
+Player's box can get hung up on the tile geometry...
+Dungeon-core needs some cool animations
+	Need power lines going to the two crystals
+Make sure that the Player can't soft-lock themselves
+
+
+Player Actions:
+
+Bomb needs to fly from player center
+Throwing bomb moved the player
+	The bomb should appear outside the Player's box, or shouldn't interact with it for a second
+Movement should respond to direction player is pressing
+Attack should just happen the one time, even when holding button down
+Player shouldn't slide when they begin/end walking
+	Player should complete a step animation, even when going a very small amount
+Moving diagonally seems to be faster...
+Not obvious at all what the attack and pickup buttons are
+
+
+Enemies:
+
+Ranged enemy needs a windup before attacking, and a projectile
+
+
+Menu:
+Need a Pause menu
+Need a start menu
